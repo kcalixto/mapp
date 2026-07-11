@@ -20,5 +20,10 @@ export const sites: Site[] = [
     slug: "card-plenaria-up",
     url: "https://card-plenaria-up-webpage.s3.sa-east-1.amazonaws.com/card_plenaria.html",
     title: "Card Plenária UP",
-  }
+  },
+  {
+    slug: "livraria",
+    url: "http://livraria-serverless-deployment-dev.s3-website-sa-east-1.amazonaws.com",
+    title: "Livraria",
+  },
 ];
