@@ -1,0 +1,52 @@
+name: Deploy hub to S3
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'hub/**'
+      - '.github/workflows/deploy-hub.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  S3_BUCKET: mapp-hub-ui-sa-east-1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: hub
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: hub/package-lock.json
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ vars.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ vars.AWS_SECRET_ACCESS_KEY }}
+          aws-region: sa-east-1
+
+      - name: Sync assets (long cache)
+        run: >
+          aws s3 sync dist/ "s3://$S3_BUCKET"
+          --delete
+          --exclude index.html
+          --cache-control 'public,max-age=31536000,immutable'
+
+      - name: Upload index.html (no cache)
+        run: >
+          aws s3 cp dist/index.html "s3://$S3_BUCKET/index.html"
+          --cache-control 'no-cache'

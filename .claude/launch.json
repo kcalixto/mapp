@@ -1,0 +1,15 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "hub",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "export PATH=\"$HOME/.nvm/versions/node/v22.16.0/bin:$PATH\" && npm --prefix hub run dev -- --port \"$PORT\""
+      ],
+      "port": 5173,
+      "autoPort": true
+    }
+  ]
+}
