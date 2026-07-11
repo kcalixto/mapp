@@ -73,3 +73,7 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# gerado pelo passo de bundle do Makefile
+android/app/src/main/assets/index.android.bundle
+dist/

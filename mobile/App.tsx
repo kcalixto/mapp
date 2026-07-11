@@ -13,7 +13,7 @@ import {
 import { WebView } from 'react-native-webview';
 
 // TODO: definir a URL do site que o app vai exibir
-const WEB_URL = 'https://example.com';
+const WEB_URL = 'http://mapp-hub-ui-sa-east-1.s3-website-sa-east-1.amazonaws.com/';
 
 function App() {
   return (
