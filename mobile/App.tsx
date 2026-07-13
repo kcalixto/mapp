@@ -18,7 +18,7 @@ const WEB_URL = 'http://mapp-hub-ui-sa-east-1.s3-website-sa-east-1.amazonaws.com
 function App() {
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle="dark-content" backgroundColor="#f3f4f6" />
+      <StatusBar barStyle="light-content" backgroundColor="#0d1422" />
       <AppContent />
     </SafeAreaProvider>
   );
@@ -62,7 +62,7 @@ function AppContent() {
         startInLoadingState
         renderLoading={() => (
           <View style={styles.loading}>
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color="#ed4a5e" />
           </View>
         )}
       />
@@ -73,7 +73,7 @@ function AppContent() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f3f4f6',
+    backgroundColor: '#0d1422',
   },
   loading: {
     position: 'absolute',
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#f3f4f6',
+    backgroundColor: '#0d1422',
   },
 });
 

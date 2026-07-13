@@ -1,7 +1,11 @@
+import { Cog } from "lucide-react";
+import type { ReactElement } from "react";
+
 export type Site = {
   slug: string;
   url: string;
   title: string;
+  icon?: ReactElement<any, any>;
 };
 
 // O cover de cada site é servido de /public/<slug>.jpg
@@ -25,5 +29,11 @@ export const sites: Site[] = [
     slug: "livraria",
     url: "http://livraria-serverless-deployment-dev.s3-website-sa-east-1.amazonaws.com",
     title: "Livraria",
+  },
+  {
+    slug: "livraria",
+    url: "http://livraria-serverless-deployment-dev.s3-website-sa-east-1.amazonaws.com/backoffice",
+    title: "Livraria Backoffice",
+    icon: <Cog size={32} color={"white"} />,
   },
 ];

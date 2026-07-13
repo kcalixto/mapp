@@ -1,39 +1,85 @@
 .hub {
+  position: relative;
   max-width: 480px;
   margin: 0 auto;
   padding: 16px 16px calc(24px + env(safe-area-inset-bottom));
 }
 
+/* ---- fundo: linhas de metrô ---- */
+
+.bg-map {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-map::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 100% 55% at 50% -12%,
+    rgba(76, 134, 245, 0.16),
+    transparent 65%
+  );
+}
+
+.bg-map svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- header ---- */
+
 .hub-header {
-  padding: 8px 4px 16px;
+  padding: 20px 4px 22px;
 }
 
 .hub-header h1 {
-  font-size: 1.5rem;
+  font-family: 'Sora', system-ui, sans-serif;
+  font-size: 1.75rem;
   font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
 }
 
 .hub-header p {
-  margin-top: 2px;
-  font-size: 0.875rem;
-  color: #6b7280;
+  margin-top: 4px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
+
+/* ---- lista ---- */
 
 .site-list {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
+/* cada card pega a cor de uma "linha" */
+.site-item:nth-child(4n + 1) { --line: var(--line-red); }
+.site-item:nth-child(4n + 2) { --line: var(--line-yellow); }
+.site-item:nth-child(4n + 3) { --line: var(--line-green); }
+.site-item:nth-child(4n + 4) { --line: var(--line-blue); }
+
 .site-card {
-  display: block;
-  background: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  height: 7.5rem;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--line);
   border-radius: 16px;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.25);
   transition: transform 0.1s ease;
 }
 
@@ -41,17 +87,66 @@
   transform: scale(0.98);
 }
 
-.site-cover {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  background: #e5e7eb;
+.site-card:focus-visible {
+  outline: 2px solid var(--line);
+  outline-offset: 3px;
 }
 
-.site-title {
+.site-cover-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  width: 7.5rem;
+  height: 100%;
+  overflow: hidden;
+  background: var(--surface-raised);
+  background: color-mix(in srgb, var(--line) 18%, var(--surface));
+}
+
+.site-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
+}
+
+.site-icon-wrapper {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.35);
+}
+
+.site-icon {
+  display: flex;
+  line-height: 0;
+}
+
+/* título = nome da estação, com o marcador de estação */
+.site-title {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 14px 16px;
+  font-family: 'Sora', system-ui, sans-serif;
   font-size: 1rem;
   font-weight: 600;
+  line-height: 1.35;
+}
+
+.site-title::before {
+  content: '';
+  flex-shrink: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 3px solid var(--line);
+  background: var(--bg);
 }
