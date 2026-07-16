@@ -27,23 +27,23 @@ export const sites: Site[] = [
   },
   {
     slug: "livraria",
-    url: "http://livraria-serverless-deplyment-prd.s3-website-sa-east-1.amazonaws.com/",
+    url: "https://d2xomctaj8njm0.cloudfront.net/",
     title: "Livraria",
   },
   {
     slug: "livraria",
-    url: "http://livraria-serverless-deplyment-prd.s3-website-sa-east-1.amazonaws.com/backoffice",
+    url: "https://d2xomctaj8njm0.cloudfront.net/backoffice",
     title: "Livraria Backoffice",
     icon: <Cog size={32} color={"white"} />,
   },
   {
     slug: "livraria",
-    url: "http://livraria-serverless-deployment-dev.s3-website-sa-east-1.amazonaws.com/",
+    url: "https://d3ahs91xggvxw0.cloudfront.net",
     title: "Livraria DEV",
   },
   {
     slug: "livraria",
-    url: "http://livraria-serverless-deployment-dev.s3-website-sa-east-1.amazonaws.com/backoffice",
+    url: "https://d3ahs91xggvxw0.cloudfront.net/backoffice",
     title: "Livraria Backoffice DEV",
     icon: <Cog size={32} color={"white"} />,
   },
