@@ -1,0 +1,36 @@
+name: Deploy to S3
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/bilhete-unico/**'
+      - '.github/workflows/deploy-hub.yml'
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: apps/bilhete-unico
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: npx serverless deploy

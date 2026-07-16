@@ -1,0 +1,52 @@
+service: bilhete-unico-static
+
+provider:
+  name: aws
+  region: sa-east-1
+  deploymentBucket:
+    name: kcalixto-serverless-framework
+
+plugins:
+  - serverless-s3-sync
+
+custom:
+  bucketName: bilhete-unico-static-site-kcalixto
+  s3Sync:
+    - bucketName: ${self:custom.bucketName}
+      localDir: .
+      deleteRemoved: true
+      params:
+        - "*.html":
+            ContentType: text/html
+            CacheControl: no-cache
+
+resources:
+  Resources:
+    StaticSiteBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.bucketName}
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
+        WebsiteConfiguration:
+          IndexDocument: bilheteunico.html
+          ErrorDocument: bilheteunico.html
+
+    StaticSiteBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref StaticSiteBucket
+        PolicyDocument:
+          Statement:
+            - Effect: Allow
+              Principal: "*"
+              Action: s3:GetObject
+              Resource: !Sub "${StaticSiteBucket.Arn}/*"
+
+  Outputs:
+    WebsiteURL:
+      Value: !GetAtt StaticSiteBucket.WebsiteURL
+      Description: S3 static website URL

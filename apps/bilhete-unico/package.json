@@ -1,0 +1,13 @@
+{
+  "name": "bilhete-unico",
+  "version": "1.0.0",
+  "description": "``` http://kcalixto-sa-east-1-bilhete-unico-static-site.s3-website-sa-east-1.amazonaws.com/bilheteunico.html ```",
+  "main": "calculator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

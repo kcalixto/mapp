@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Créditos de Transporte</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body
+    class="bg-gray-100 min-h-screen flex items-center justify-center p-4 font-sans"
+  >
+    <div
+      class="bg-white rounded-2xl shadow-xl w-full max-w-4xl p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-8"
+    >
+      <div class="flex flex-col h-full">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-4">
+          <i class="fa-solid fa-wallet text-indigo-600 mr-2"></i>Calculadora de
+          Transporte
+        </h2>
+
+        <div class="space-y-5 flex-grow">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              1. Quantidade de viagens de ônibus
+              <span class="text-indigo-600 font-semibold">(ida e volta)</span>
+            </label>
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <i class="fa-solid fa-bus text-gray-400"></i>
+              </div>
+              <input
+                type="number"
+                id="bus-round"
+                min="0"
+                placeholder="0"
+                class="pl-10 w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+              />
+            </div>
+            <p class="text-xs text-gray-500 mt-1">
+              <i class="fa-solid fa-circle-info mr-1"></i> Tarifa: R$ 5,30 × 2 =
+              <strong>R$ 10,60</strong>
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              2. Quantidade de viagens de ônibus+trem
+              <span class="text-indigo-600 font-semibold">(ida e volta)</span>
+            </label>
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <i class="fa-solid fa-train-subway text-gray-400"></i>
+              </div>
+              <input
+                type="number"
+                id="bus-train-round"
+                min="0"
+                placeholder="0"
+                class="pl-10 w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+              />
+            </div>
+            <p class="text-xs text-gray-500 mt-1">
+              <i class="fa-solid fa-circle-info mr-1"></i> Tarifa: R$ 9,38 × 2 =
+              <strong>R$ 18,76</strong>
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              3. Quantidade de viagens de trem
+              <span class="text-indigo-600 font-semibold">(somente ida)</span>
+            </label>
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <i class="fa-solid fa-train text-gray-400"></i>
+              </div>
+              <input
+                type="number"
+                id="train-oneway"
+                min="0"
+                placeholder="0"
+                class="pl-10 w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+              />
+            </div>
+            <p class="text-xs text-gray-500 mt-1">
+              <i class="fa-solid fa-circle-info mr-1"></i> Tarifa:
+              <strong>R$ 5,40</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-gray-200">
+          <div
+            class="bg-indigo-50 rounded-xl p-5 flex items-center justify-between border border-indigo-100 shadow-inner"
+          >
+            <span class="text-lg font-semibold text-indigo-900"
+              >Total de Créditos:</span
+            >
+            <span
+              class="text-3xl font-black text-indigo-700 tracking-tight"
+              id="total-result"
+              >R$ 0,00</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bg-gray-50 rounded-xl p-6 border border-gray-200 shadow-sm flex flex-col h-full"
+      >
+        <div class="bg-white rounded-lg shadow p-4">
+          <div class="flex items-center justify-between mb-3">
+            <h3
+              class="text-xl font-bold text-gray-800 capitalize"
+              id="calendar-month-year"
+            ></h3>
+            <i class="fa-regular fa-calendar-days text-indigo-500 text-xl"></i>
+          </div>
+
+          <div id="calendar-legend" class="flex gap-2 flex-wrap mb-3"></div>
+
+          <div
+            class="grid grid-cols-7 gap-1 text-center text-xs font-bold text-gray-500 uppercase tracking-wide mb-2"
+          >
+            <div class="text-red-500">Dom</div>
+            <div>Seg</div>
+            <div>Ter</div>
+            <div>Qua</div>
+            <div>Qui</div>
+            <div>Sex</div>
+            <div class="text-indigo-500">Sáb</div>
+          </div>
+
+          <div
+            class="grid grid-cols-7 gap-1 text-center text-sm font-medium"
+            id="calendar-grid"
+          ></div>
+        </div>
+
+        <div class="mt-4 bg-white rounded-lg shadow p-4 border border-gray-200">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-semibold text-gray-700">
+              <i class="fa-solid fa-calendar-check text-indigo-500 mr-1"></i>Total do calendário:
+            </span>
+            <span id="calendar-total-result" class="text-xl font-black text-indigo-700">R$ 0,00</span>
+          </div>
+          <p class="text-xs text-gray-400 mt-1">Baseado nos dias selecionados acima</p>
+        </div>
+
+        <p class="text-center text-xs text-gray-400 mt-4">
+          * Clique nos dias para registrar o tipo de viagem realizada.
+        </p>
+      </div>
+    </div>
+
+    <script src="calculator.js"></script>
+    <script src="calendar.js"></script>
+  </body>
+</html>
