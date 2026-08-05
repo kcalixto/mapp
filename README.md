@@ -1,11 +1,12 @@
 # mapp
 
-Monorepo com dois projetos:
+Monorepo com três áreas:
 
 | Pasta     | O que é                                                              |
 | --------- | -------------------------------------------------------------------- |
 | `mobile/` | App Android (bare React Native) que exibe um site em webview         |
 | `hub/`    | Web app (Vite + React + TS) mobile-first: hub de sites, deploy no S3 |
+| `apps/`   | Sites/serviços linkados pelo hub — stack única serverless@v3, ver [`apps/README.md`](apps/README.md) |
 
 Requisito: Node >= 20.
 
@@ -46,3 +47,10 @@ Workflow: [`.github/workflows/deploy-hub.yml`](.github/workflows/deploy-hub.yml)
 - Assets versionados com cache longo; `index.html` com `no-cache`.
 - Credenciais: **variáveis de repositório** (Settings → Secrets and variables → Actions → Variables) `AWS_ACCESS_KEY_ID` e `AWS_SECRET_ACCESS_KEY`.
 - O provisionamento do bucket (static website hosting ou CloudFront) fica fora deste repo.
+
+## Deploy dos apps (GitHub Actions → Serverless v3)
+
+Workflow: [`.github/workflows/deploy-apps.yml`](.github/workflows/deploy-apps.yml)
+
+- Dispara em push na `main` que toque `apps/**` (ou manualmente via *Run workflow*).
+- Uma única stack CloudFormation (`apps/serverless.yml`) provisiona e sincroniza todos os apps. Detalhes e runbook de migração em [`apps/README.md`](apps/README.md).

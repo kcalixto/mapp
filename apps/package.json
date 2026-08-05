@@ -1,0 +1,18 @@
+{
+  "name": "mapp-apps",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Unified serverless@v3 deployment stack for all apps in this folder",
+  "scripts": {
+    "deploy": "serverless deploy --verbose",
+    "info": "serverless info --verbose",
+    "print": "serverless print"
+  },
+  "devDependencies": {
+    "serverless": "^3.40.0",
+    "serverless-s3-sync": "^3.4.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

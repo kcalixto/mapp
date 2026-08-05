@@ -1,18 +1,11 @@
 {
   "name": "cca-form",
   "version": "1.0.0",
-  "description": "CCA Frei Tito space reservation system",
+  "description": "CCA Frei Tito space reservation system (deployed via ../serverless.yml)",
   "main": "src/createReservation.js",
-  "scripts": {
-    "deploy": "serverless deploy --stage prod",
-    "info": "serverless info --stage prod --verbose"
-  },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.600.0",
     "@aws-sdk/lib-dynamodb": "^3.600.0"
-  },
-  "devDependencies": {
-    "serverless": "^3.38.0"
   },
   "engines": {
     "node": ">=20.0.0"
