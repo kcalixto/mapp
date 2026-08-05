@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reserva — CCA Frei Tito</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Fraunces"', 'Georgia', 'serif'],
+            body: ['"Jost"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            cream:  '#F5F0E8',
+            brick:  '#7C2D2D',
+            ember:  '#C4622D',
+            bark:   '#3D2B1F',
+            ash:    '#8A7E74',
+            bone:   '#E8DFD1',
+            smoke:  '#D4C9BA',
+          },
+          boxShadow: {
+            card: '0 4px 24px 0 rgba(61,43,31,0.08), 0 1px 4px 0 rgba(61,43,31,0.06)',
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F5F0E8;
+      background-image:
+        radial-gradient(circle at 20% 80%, rgba(196,98,45,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(124,45,45,0.06) 0%, transparent 50%);
+      font-family: 'Jost', system-ui, sans-serif;
+    }
+
+    .field-input {
+      display: block;
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      background: #fff;
+      border: 1.5px solid #D4C9BA;
+      border-radius: 6px;
+      font-family: 'Jost', system-ui, sans-serif;
+      font-size: 0.9375rem;
+      color: #3D2B1F;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .field-input:focus {
+      border-color: #7C2D2D;
+      box-shadow: 0 0 0 3px rgba(124,45,45,0.12);
+    }
+    .field-input::placeholder {
+      color: #B0A49A;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      opacity: 0.5;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.75rem 1.5rem;
+      background: #7C2D2D;
+      color: #fff;
+      font-family: 'Jost', system-ui, sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: #6A2424;
+      box-shadow: 0 4px 12px rgba(124,45,45,0.3);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+    .btn-primary:disabled {
+      background: #C4B4A8;
+      cursor: not-allowed;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.4s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center px-4 py-10">
+
+  <div class="w-full max-w-sm">
+
+    <!-- Header -->
+    <div class="text-center mb-8 fade-in">
+      <p class="font-body text-xs font-500 tracking-widest text-ash uppercase mb-2">Centro Cultural</p>
+      <h1 class="font-display text-4xl font-bold text-brick leading-none mb-1">CCA Frei Tito</h1>
+      <div class="flex items-center justify-center gap-3 mt-3">
+        <div class="h-px w-12 bg-smoke"></div>
+        <span class="font-body text-xs tracking-widest text-ash uppercase">Reserva de Espaço</span>
+        <div class="h-px w-12 bg-smoke"></div>
+      </div>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white rounded-xl shadow-card border border-bone overflow-hidden fade-in" style="animation-delay: 0.1s; opacity: 0;">
+      <div class="h-1 w-full bg-gradient-to-r from-brick via-ember to-brick"></div>
+
+      <div class="p-6 sm:p-8">
+
+        <!-- Form -->
+        <form id="reservationForm" novalidate>
+          <div class="space-y-5">
+
+            <!-- Nome -->
+            <div>
+              <label for="name" class="block font-body text-xs font-500 tracking-widest text-ash uppercase mb-1.5">
+                Nome do Responsável
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="field-input"
+                placeholder="Seu nome completo"
+                autocomplete="name"
+                required
+              />
+            </div>
+
+            <!-- Data -->
+            <div>
+              <label for="date" class="block font-body text-xs font-500 tracking-widest text-ash uppercase mb-1.5">
+                Data de Uso
+              </label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                class="field-input"
+                required
+              />
+              <p id="dateHint" class="mt-1.5 text-xs text-ash font-body"></p>
+            </div>
+
+            <!-- Disclaimer -->
+            <div>
+              <p class="font-body text-xs font-500 tracking-widest text-ash uppercase mb-2">Termos de Uso</p>
+              <div class="bg-cream rounded-lg border border-bone p-4 max-h-28 overflow-y-auto mb-3">
+                <p class="font-body text-xs text-bark leading-relaxed" style="opacity:0.75">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+                </p>
+              </div>
+              <label class="flex items-start gap-3 cursor-pointer select-none">
+                <div class="relative flex-shrink-0 mt-0.5">
+                  <input
+                    type="checkbox"
+                    id="disclaimer"
+                    name="disclaimer"
+                    class="sr-only peer"
+                    required
+                  />
+                  <div class="w-5 h-5 rounded border-2 border-smoke bg-white peer-checked:bg-brick peer-checked:border-brick transition-colors flex items-center justify-center">
+                    <svg class="w-3 h-3 text-white hidden peer-checked-visible" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                    </svg>
+                  </div>
+                </div>
+                <span class="font-body text-sm text-bark" style="opacity:0.8">
+                  Li e concordo com os termos de uso do espaço.
+                </span>
+              </label>
+            </div>
+
+          </div>
+
+          <!-- Error message -->
+          <div id="errorMsg" class="hidden mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <p class="font-body text-sm text-red-700" id="errorText"></p>
+          </div>
+
+          <!-- Submit -->
+          <div class="mt-6">
+            <button type="submit" id="submitBtn" class="btn-primary" disabled>
+              <span id="btnLabel">Solicitar Reserva</span>
+              <span id="btnSpinner" class="spinner hidden"></span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Success state -->
+        <div id="successState" class="hidden text-center py-4">
+          <div class="w-14 h-14 rounded-full bg-green-50 border-2 border-green-200 flex items-center justify-center mx-auto mb-4">
+            <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+          <h2 class="font-display text-xl font-500 text-brick mb-2">Reserva solicitada!</h2>
+          <p class="font-body text-sm text-ash mb-1">
+            <span class="text-bark font-500" id="successName"></span>
+          </p>
+          <p class="font-body text-sm text-ash">
+            Data: <span class="text-bark font-500" id="successDate"></span>
+          </p>
+          <button
+            onclick="location.reload()"
+            class="mt-6 font-body text-xs tracking-widest text-brick uppercase border-b border-current pb-0.5 hover:text-ember transition-colors"
+          >
+            Fazer nova reserva
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <p class="text-center font-body text-xs text-ash mt-6 fade-in" style="animation-delay: 0.2s; opacity: 0;">
+      &copy; <script>document.write(new Date().getFullYear())</script> CCA Frei Tito
+    </p>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    const MIN_DAYS_AHEAD = 2;
+
+    const nameInput      = document.getElementById('name');
+    const dateInput      = document.getElementById('date');
+    const disclaimerBox  = document.getElementById('disclaimer');
+    const submitBtn      = document.getElementById('submitBtn');
+    const form           = document.getElementById('reservationForm');
+    const errorMsg       = document.getElementById('errorMsg');
+    const errorText      = document.getElementById('errorText');
+    const successState   = document.getElementById('successState');
+    const dateHint       = document.getElementById('dateHint');
+
+    // Custom checkbox visual sync
+    disclaimerBox.addEventListener('change', () => {
+      const indicator = disclaimerBox.parentElement.querySelector('div div');
+      const svg = indicator.querySelector('svg');
+      if (disclaimerBox.checked) {
+        svg.classList.remove('hidden');
+      } else {
+        svg.classList.add('hidden');
+      }
+    });
+
+    function getMinDate() {
+      const d = new Date();
+      d.setDate(d.getDate() + MIN_DAYS_AHEAD);
+      return d.toISOString().split('T')[0];
+    }
+
+    function formatDateBR(isoDate) {
+      const [year, month, day] = isoDate.split('-');
+      return `${day}/${month}/${year}`;
+    }
+
+    // Set minimum date
+    const minDate = getMinDate();
+    dateInput.setAttribute('min', minDate);
+    dateHint.textContent = `Disponível a partir de ${formatDateBR(minDate)}`;
+
+    function validate() {
+      const ok = nameInput.value.trim() !== '' &&
+                 dateInput.value !== '' &&
+                 disclaimerBox.checked;
+      submitBtn.disabled = !ok;
+    }
+
+    [nameInput, dateInput, disclaimerBox].forEach(el => el.addEventListener('input', validate));
+    [nameInput, dateInput, disclaimerBox].forEach(el => el.addEventListener('change', validate));
+
+    function showError(msg) {
+      errorText.textContent = msg;
+      errorMsg.classList.remove('hidden');
+    }
+
+    function hideError() {
+      errorMsg.classList.add('hidden');
+    }
+
+    function setLoading(loading) {
+      const label   = document.getElementById('btnLabel');
+      const spinner = document.getElementById('btnSpinner');
+      submitBtn.disabled = loading;
+      if (loading) {
+        label.textContent = 'Enviando...';
+        spinner.classList.remove('hidden');
+      } else {
+        label.textContent = 'Solicitar Reserva';
+        spinner.classList.add('hidden');
+      }
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideError();
+
+      const name = nameInput.value.trim();
+      const date = dateInput.value;
+
+      if (date < minDate) {
+        showError(`A data deve ser a partir de ${formatDateBR(minDate)}.`);
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        const res = await fetch(`${window.CONFIG.apiUrl}/reservations`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, date, disclaimerAccepted: true }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showError(data.error || 'Ocorreu um erro. Tente novamente.');
+          return;
+        }
+
+        form.classList.add('hidden');
+        document.getElementById('successName').textContent = name;
+        document.getElementById('successDate').textContent = formatDateBR(date);
+        successState.classList.remove('hidden');
+        successState.classList.add('fade-in');
+
+      } catch {
+        showError('Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
+      } finally {
+        setLoading(false);
+      }
+    });
+  </script>
+</body>
+</html>

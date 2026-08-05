@@ -1,0 +1,47 @@
+name: Deploy msg-template
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/msg-template/**'
+      - '.github/workflows/deploy-msg-template.yml'
+
+defaults:
+  run:
+    working-directory: apps/msg-template
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: msg-template/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Serverless
+        run: npm install -g serverless@v3
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to S3
+        run: serverless deploy --stage prod --verbose
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: sa-east-1

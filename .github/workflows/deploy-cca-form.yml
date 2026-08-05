@@ -1,0 +1,71 @@
+name: Deploy CCA Form
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/cca-form/**'
+      - '.github/workflows/deploy-cca-form.yml'
+
+defaults:
+  run:
+    working-directory: apps/cca-form
+
+jobs:
+  deploy:
+    name: Deploy to AWS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: cca-form/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Serverless
+        run: npm install -g serverless@v3
+
+      - name: Deploy backend
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: serverless deploy --stage prod
+
+      - name: Capture API Gateway URL
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          API_URL=$(serverless info --stage prod --verbose 2>&1 | grep "ServiceEndpoint:" | awk '{print $2}')
+          echo "API_URL=${API_URL}" >> $GITHUB_ENV
+          echo "Captured API URL: ${API_URL}"
+
+      - name: Generate frontend config
+        run: |
+          echo "window.CONFIG = { apiUrl: '${API_URL}' };" > frontend/config.js
+
+      - name: Capture S3 bucket name
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          BUCKET_NAME=$(serverless info --stage prod --verbose 2>&1 | grep "FrontendBucketName:" | awk '{print $2}')
+          echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
+          echo "Captured bucket name: ${BUCKET_NAME}"
+
+      - name: Deploy frontend to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: sa-east-1
+        run: |
+          aws s3 sync frontend/ s3://${BUCKET_NAME} --delete --cache-control "max-age=3600"
