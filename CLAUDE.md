@@ -1,4 +1,12 @@
-# msg-template — Calendário de Lutas (WhatsApp)
+# Apps
+
+1. msg-template
+2. journal-master
+3. cca-form
+4. card-generator
+5. bilhete-unico
+
+# 1. msg-template — Calendário de Lutas (WhatsApp)
 
 Builder de calendário de tarefas para WhatsApp. Monta a mensagem semanal "🔥Calendário de Lutas da semana🔥" com datas, atividades (nome, hora, local) e listas de participantes, e copia o texto formatado (markdown do WhatsApp: `*negrito*`, `_itálico_`) para a área de transferência. Exemplo real do formato em `wpp_messages_example.txt`.
 
@@ -46,4 +54,16 @@ localStorage, chave `wpp-template-state`, salva com debounce de 300ms em `App.ts
 
 ## Deploy
 
-Push na `main` → GitHub Actions (`.github/workflows/deploy-msg-template.yml`): `npm test` → `npm run build` → `serverless deploy --stage prod` (S3 estático, `serverless.yml`, região sa-east-1 via workflow). **Os testes bloqueiam o deploy.** Não editar `dist/` à mão — é rebuildado no CI.
+Push na `main` tocando `apps/**` → GitHub Actions (`.github/workflows/deploy-apps.yml`): `npm test` → `npm run build` → `serverless deploy --stage prod` da stack unificada (`apps/serverless.yml`, serverless v3, S3 `wpp-template-prod`, região sa-east-1). **Os testes bloqueiam o deploy.** Não editar `dist/` à mão — é rebuildado no CI.
+
+# 2. journal-master — Diário de bordo (web)
+// todo
+
+# 3. cca-form — Formulário de CCA (web)
+// todo
+
+# 4. card-generator — Gerador de cartões (web)
+// todo
+
+# 5. bilhete-unico — POC do app Bilhete Único (web)
+// todo
