@@ -12,12 +12,12 @@ export type Site = {
 export const sites: Site[] = [
   {
     slug: "bilhete-unico-app",
-    url: "http://kcalixto-sa-east-1-bilhete-unico-static-site.s3-website-sa-east-1.amazonaws.com/bilheteunico.html",
+    url: "http://bilhete-unico-static-site-kcalixto.s3-website-sa-east-1.amazonaws.com/bilheteunico.html",
     title: "Calculadora de Bilhete Único",
   },
   {
     slug: "calendario-de-tarefas",
-    url: "https://wpp-template-prod.s3.us-east-1.amazonaws.com/index.html",
+    url: "https://wpp-template-prod.s3.sa-east-1.amazonaws.com/index.html",
     title: "Calendário de Tarefas",
   },
   {
