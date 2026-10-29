@@ -162,6 +162,7 @@
 .site-url {
   height: 1.5rem;
   width: 100%;
+  color: white;
   border-radius: 0 0 8px 8px;
   background: var(--surface);
 }

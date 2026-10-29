@@ -27,23 +27,23 @@ export const sites: Site[] = [
   },
   {
     slug: "livraria",
-    url: "https://d2xomctaj8njm0.cloudfront.net/",
+    url: "https://edicoes.zonasul.click",
     title: "Livraria",
   },
   {
     slug: "livraria",
-    url: "https://d2xomctaj8njm0.cloudfront.net/backoffice",
+    url: "https://edicoes.zonasul.click/backoffice",
     title: "Livraria Backoffice",
     icon: <Cog size={32} color={"white"} />,
   },
   {
     slug: "livraria",
-    url: "https://d3ahs91xggvxw0.cloudfront.net",
+    url: "https://dev-edicoes.zonasul.click",
     title: "Livraria DEV",
   },
   {
     slug: "livraria",
-    url: "https://d3ahs91xggvxw0.cloudfront.net/backoffice",
+    url: "https://dev-edicoes.zonasul.click/backoffice",
     title: "Livraria Backoffice DEV",
     icon: <Cog size={32} color={"white"} />,
   },
