@@ -34,12 +34,47 @@ function BgMap() {
           />
         </g>
         <g strokeWidth="3">
-          <circle cx="234" cy="300" r="6" fill="#0d1422" stroke="#ed4a5e" opacity="0.45" />
-          <circle cx="96" cy="200" r="6" fill="#0d1422" stroke="#4c86f5" opacity="0.4" />
-          <circle cx="180" cy="304" r="6" fill="#0d1422" stroke="#43c98a" opacity="0.4" />
-          <circle cx="180" cy="700" r="6" fill="#0d1422" stroke="#f6c445" opacity="0.4" />
+          <circle
+            cx="234"
+            cy="300"
+            r="6"
+            fill="#0d1422"
+            stroke="#ed4a5e"
+            opacity="0.45"
+          />
+          <circle
+            cx="96"
+            cy="200"
+            r="6"
+            fill="#0d1422"
+            stroke="#4c86f5"
+            opacity="0.4"
+          />
+          <circle
+            cx="180"
+            cy="304"
+            r="6"
+            fill="#0d1422"
+            stroke="#43c98a"
+            opacity="0.4"
+          />
+          <circle
+            cx="180"
+            cy="700"
+            r="6"
+            fill="#0d1422"
+            stroke="#f6c445"
+            opacity="0.4"
+          />
           {/* estação de integração: as linhas se cruzam */}
-          <circle cx="310" cy="70" r="8" fill="#0d1422" stroke="#f4f7fb" opacity="0.35" />
+          <circle
+            cx="310"
+            cy="70"
+            r="8"
+            fill="#0d1422"
+            stroke="#f4f7fb"
+            opacity="0.35"
+          />
         </g>
       </svg>
     </div>
@@ -76,6 +111,7 @@ function App() {
               </div>
               <span className="site-title">{site.title}</span>
             </a>
+            <input className="site-url" value={site.url} />
           </li>
         ))}
       </ul>

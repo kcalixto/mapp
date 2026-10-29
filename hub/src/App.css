@@ -16,7 +16,7 @@
 }
 
 .bg-map::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: radial-gradient(
@@ -38,7 +38,7 @@
 }
 
 .hub-header h1 {
-  font-family: 'Sora', system-ui, sans-serif;
+  font-family: "Sora", system-ui, sans-serif;
   font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -61,10 +61,18 @@
 }
 
 /* cada card pega a cor de uma "linha" */
-.site-item:nth-child(4n + 1) { --line: var(--line-red); }
-.site-item:nth-child(4n + 2) { --line: var(--line-yellow); }
-.site-item:nth-child(4n + 3) { --line: var(--line-green); }
-.site-item:nth-child(4n + 4) { --line: var(--line-blue); }
+.site-item:nth-child(4n + 1) {
+  --line: var(--line-red);
+}
+.site-item:nth-child(4n + 2) {
+  --line: var(--line-yellow);
+}
+.site-item:nth-child(4n + 3) {
+  --line: var(--line-green);
+}
+.site-item:nth-child(4n + 4) {
+  --line: var(--line-blue);
+}
 
 .site-card {
   display: flex;
@@ -135,18 +143,25 @@
   align-items: center;
   gap: 12px;
   padding: 14px 16px;
-  font-family: 'Sora', system-ui, sans-serif;
+  font-family: "Sora", system-ui, sans-serif;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.35;
 }
 
 .site-title::before {
-  content: '';
+  content: "";
   flex-shrink: 0;
   width: 11px;
   height: 11px;
   border-radius: 50%;
   border: 3px solid var(--line);
   background: var(--bg);
+}
+
+.site-url {
+  height: 1.5rem;
+  width: 100%;
+  border-radius: 0 0 8px 8px;
+  background: var(--surface);
 }
