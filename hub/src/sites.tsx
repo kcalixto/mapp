@@ -12,17 +12,17 @@ export type Site = {
 export const sites: Site[] = [
   {
     slug: "bilhete-unico-app",
-    url: "http://bilhete-unico-static-site-kcalixto.s3-website-sa-east-1.amazonaws.com/bilheteunico.html",
+    url: "http://mapp-bilhete-unico-prod.s3-website-sa-east-1.amazonaws.com/",
     title: "Calculadora de Bilhete Único",
   },
   {
     slug: "calendario-de-tarefas",
-    url: "https://wpp-template-prod.s3.sa-east-1.amazonaws.com/index.html",
+    url: "http://mapp-wpp-template-prod.s3-website-sa-east-1.amazonaws.com",
     title: "Calendário de Tarefas",
   },
   {
-    slug: "card-plenaria-up",
-    url: "https://card-plenaria-up-webpage.s3.sa-east-1.amazonaws.com/card_plenaria.html",
+    slug: "card-generator",
+    url: "http://mapp-card-generator-prod.s3-website-sa-east-1.amazonaws.com",
     title: "Card Plenária UP",
   },
   {
