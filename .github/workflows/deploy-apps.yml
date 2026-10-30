@@ -55,10 +55,3 @@ jobs:
 
       - name: Deploy unified stack
         run: npx serverless deploy --stage prod --verbose
-
-      - name: Point cca-form frontend at the deployed API
-        run: |
-          API_URL=$(npx serverless info --stage prod --verbose | grep "ServiceEndpoint:" | awk '{print $2}')
-          echo "Captured API URL: ${API_URL}"
-          echo "window.CONFIG = { apiUrl: '${API_URL}' };" > cca-form/frontend/config.js
-          aws s3 cp cca-form/frontend/config.js s3://cca-frei-tito-frontend-prod/config.js --cache-control no-cache
