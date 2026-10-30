@@ -28,77 +28,42 @@ package:
     - 'cca-form/src/**'
 
 custom:
+  bucketName:
+    msgTemplate: mapp-wpp-template-${sls:stage}
+    cardGenerator: mapp-card-generator-${sls:stage}
+    bilheteUnico: mapp-bilhete-unico-${sls:stage}
+
   s3Sync:
     # msg-template: Vite build output (run `npm run build` in msg-template first)
-    - bucketName: wpp-template-${sls:stage}
+    - bucketName: ${self:custom.bucketName.msgTemplate}
       localDir: msg-template/dist
       deleteRemoved: true
       defaultContentType: text/html
+      
     # bilhete-unico: static HTML + JS, served as-is
-    - bucketName: bilhete-unico-static-site-kcalixto
+    - bucketName: ${self:custom.bucketName.bilheteUnico}
       localDir: bilhete-unico
       deleteRemoved: true
       params:
         - '*.html':
             ContentType: text/html
             CacheControl: no-cache
-    # card-generator: single static HTML. Bucket pre-exists (created outside
-    # CloudFormation), so it is synced but not declared under resources.
-    - bucketName: card-plenaria-up-webpage
+
+    # card-generator: single static HTML.
+    - bucketName: ${self:custom.bucketName.cardGenerator}
       localDir: card-generator
       deleteRemoved: true
       params:
         - '*.html':
             ContentType: text/html
             CacheControl: no-cache
-    # cca-form frontend: config.js is rewritten with the real API URL by CI
-    # after deploy (see .github/workflows/deploy-apps.yml)
-    - bucketName: cca-frei-tito-frontend-${sls:stage}
-      localDir: cca-form/frontend
-      deleteRemoved: true
-      params:
-        - '*.html':
-            ContentType: text/html
-            CacheControl: max-age=3600
-
-functions:
-  createReservation:
-    handler: cca-form/src/createReservation.handler
-    events:
-      - http:
-          path: reservations
-          method: post
-          cors: true
-  getReservations:
-    handler: cca-form/src/getReservations.handler
-    events:
-      - http:
-          path: reservations
-          method: get
-          cors: true
 
 resources:
   Resources:
-    ReservationsTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: cca-reservations-${sls:stage}
-        BillingMode: PAY_PER_REQUEST
-        AttributeDefinitions:
-          - AttributeName: PK
-            AttributeType: S
-          - AttributeName: SK
-            AttributeType: S
-        KeySchema:
-          - AttributeName: PK
-            KeyType: HASH
-          - AttributeName: SK
-            KeyType: RANGE
-
-    WppTemplateBucket:
+    MsgTemplateBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: wpp-template-${sls:stage}
+        BucketName: ${self:custom.bucketName.msgTemplate}
         WebsiteConfiguration:
           IndexDocument: index.html
           ErrorDocument: index.html
@@ -108,22 +73,47 @@ resources:
           IgnorePublicAcls: false
           RestrictPublicBuckets: false
 
-    WppTemplateBucketPolicy:
+    MsgTemplateBucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
-        Bucket: !Ref WppTemplateBucket
+        Bucket: !Ref MsgTemplateBucket
         PolicyDocument:
           Version: '2012-10-17'
           Statement:
             - Effect: Allow
               Principal: '*'
               Action: s3:GetObject
-              Resource: !Sub '${WppTemplateBucket.Arn}/*'
+              Resource: !Sub '${MsgTemplateBucket.Arn}/*'
+
+    CardGeneratorBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.bucketName.cardGenerator}
+        WebsiteConfiguration:
+          IndexDocument: card_plenaria.html
+          ErrorDocument: card_plenaria.html
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
+
+    CardGeneratorBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref CardGeneratorBucket
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal: '*'
+              Action: s3:GetObject
+              Resource: !Sub '${CardGeneratorBucket.Arn}/*'
 
     BilheteUnicoBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: bilhete-unico-static-site-kcalixto
+        BucketName: ${self:custom.bucketName.bilheteUnico}
         WebsiteConfiguration:
           IndexDocument: bilheteunico.html
           ErrorDocument: bilheteunico.html
@@ -145,37 +135,8 @@ resources:
               Action: s3:GetObject
               Resource: !Sub '${BilheteUnicoBucket.Arn}/*'
 
-    CcaFrontendBucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: cca-frei-tito-frontend-${sls:stage}
-        WebsiteConfiguration:
-          IndexDocument: index.html
-          ErrorDocument: index.html
-        PublicAccessBlockConfiguration:
-          BlockPublicAcls: false
-          BlockPublicPolicy: false
-          IgnorePublicAcls: false
-          RestrictPublicBuckets: false
-
-    CcaFrontendBucketPolicy:
-      Type: AWS::S3::BucketPolicy
-      Properties:
-        Bucket: !Ref CcaFrontendBucket
-        PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
-            - Effect: Allow
-              Principal: '*'
-              Action: s3:GetObject
-              Resource: !Sub '${CcaFrontendBucket.Arn}/*'
-
   Outputs:
-    WppTemplateWebsiteURL:
-      Value: !GetAtt WppTemplateBucket.WebsiteURL
+    MsgTemplateWebsiteURL:
+      Value: !GetAtt MsgTemplateBucket.WebsiteURL
     BilheteUnicoWebsiteURL:
       Value: !GetAtt BilheteUnicoBucket.WebsiteURL
-    CcaFrontendBucketName:
-      Value: !Ref CcaFrontendBucket
-    CcaFrontendWebsiteURL:
-      Value: !GetAtt CcaFrontendBucket.WebsiteURL
